@@ -8,6 +8,18 @@ public class ScreenshotDetectorPlugin: NSObject, FlutterPlugin, FlutterStreamHan
         let instance = ScreenshotDetectorPlugin()
         let eventChannel = FlutterEventChannel(name: "screenshot_detector", binaryMessenger: registrar.messenger())
         eventChannel.setStreamHandler(instance)
+
+        let methodChannel = FlutterMethodChannel(name: "screenshot_detector_method", binaryMessenger: registrar.messenger())
+        registrar.addMethodCallDelegate(instance, channel: methodChannel)
+    }
+
+    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if call.method == "cancelStream" {
+            onCancel(withArguments: nil)
+            result(nil)
+        } else {
+            result(FlutterMethodNotImplemented)
+        }
     }
 
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {

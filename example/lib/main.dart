@@ -28,6 +28,20 @@ class _Home extends StatefulWidget {
 }
 
 class _HomeState extends State<_Home> {
+  bool hasScreenDetected = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ScreenshotDetector.instance.startListening(() {});
+  }
+
+  @override
+  void dispose() {
+    ScreenshotDetector.instance.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +53,37 @@ class _HomeState extends State<_Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ScreenShotDetectorWrapper(
-              onScreenshot: const Text('Screenshot Detected'),
-              child: TextButton(
-                onPressed: () => {},
-                child: const Text(
-                  'Share',
-                ),
-              ),
-            )
+            if (hasScreenDetected) const Text('Screenshot Detected'),
+            TextButton(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Page1())),
+                child: const Text('push'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Page1 extends StatefulWidget {
+  const Page1({super.key});
+
+  @override
+  State<Page1> createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plugin example app'),
+      ),
+      body: const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Page 1'),
           ],
         ),
       ),

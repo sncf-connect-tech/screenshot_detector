@@ -27,5 +27,5 @@ abstract class ScreenshotDetectorPlatform extends PlatformInterface {
     return instance.startListening(onScreenshot);
   }
 
-  void dispose();
+  void dispose() => instance.dispose();
 }

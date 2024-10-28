@@ -10,6 +10,8 @@ class MethodChannelScreenshotDetector extends ScreenshotDetectorPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   static const EventChannel eventChannel = EventChannel('screenshot_detector');
+  static const MethodChannel _methodChannel = MethodChannel('screenshot_detector_method');
+
   StreamSubscription<dynamic>? _eventSubscription;
 
   @override
@@ -22,7 +24,8 @@ class MethodChannelScreenshotDetector extends ScreenshotDetectorPlatform {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
+    await _methodChannel.invokeMethod('dispose');
     _eventSubscription?.cancel();
     _eventSubscription = null;
   }

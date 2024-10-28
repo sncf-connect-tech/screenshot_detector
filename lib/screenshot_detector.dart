@@ -16,7 +16,7 @@ class ScreenshotDetector {
         onScreenshotController.add(true);
       });
 
-  void disposeStream() {
+  void dispose() {
     onScreenshotController.close();
     ScreenshotDetectorPlatform.instance.dispose();
   }
@@ -39,6 +39,12 @@ class _ScreenShotDetectorWrapperState extends State<ScreenShotDetectorWrapper> {
   void initState() {
     super.initState();
     screenshotDetector._startListeningStream();
+  }
+
+  @override
+  void dispose() {
+    screenshotDetector.dispose();
+    super.dispose();
   }
 
   @override
